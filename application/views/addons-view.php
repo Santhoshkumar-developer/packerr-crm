@@ -19,7 +19,7 @@
     <section class="content-header">
       <h1>
         <?=$page_title;?>
-        <small>View/Search Items Brand</small>
+        <small>View/Search Items Addons Service</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo $base_url; ?>dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -39,10 +39,10 @@
           <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title"><?=$page_title;?></h3>
-              <?php if($CI->permissions('brand_add')) { ?>
+              <?php if($CI->permissions('addons_add')) { ?>
               <div class="box-tools">
-                <a class="btn btn-block btn-info" href="<?php echo $base_url; ?>brands/add">
-                <i class="fa fa-plus"></i> <?= $this->lang->line('add_brand'); ?></a>
+                <a class="btn btn-block btn-info" href="<?php echo $base_url; ?>addons/add">
+                <i class="fa fa-plus"></i> <?= $this->lang->line('add_addons'); ?></a>
               </div>
               <?php } ?>
             </div>
@@ -54,8 +54,8 @@
                   <th class="text-center">
                     <input type="checkbox" class="group_check checkbox" >
                   </th>
-                  <th><?= $this->lang->line('brand_code'); ?></th>
-                  <th><?= $this->lang->line('brand_name'); ?></th>
+                  <th><?= $this->lang->line('addons_code'); ?></th>
+                  <th><?= $this->lang->line('addons_name'); ?></th>
                   <th><?= $this->lang->line('description'); ?></th>
                   <th><?= $this->lang->line('status'); ?></th>
                   <th><?= $this->lang->line('action'); ?></th>
@@ -128,7 +128,7 @@ $(document).ready(function() {
         },
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('brands/ajax_list')?>",
+            "url": "<?php echo site_url('addons/ajax_list')?>",
             "type": "POST",
             
             complete: function (data) {

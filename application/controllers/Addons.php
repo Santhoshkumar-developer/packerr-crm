@@ -5,86 +5,97 @@ class Addons extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load_global();
-		$this->load->model('customers_model','customers');
+		$this->load->model('addons_model','addons');
 	}
 
-	public function index()
-	{
-		$this->permission_check('customers_view');
+	public function add(){
+		$this->permission_check('addons_add');
 		$data=$this->data;
-		$data['page_title']=$this->lang->line('customers_list');
-		$this->load->view('addons-view',$data);
-	}
-	public function add()
-	{
-		$this->permission_check('customers_add');
-		$data=$this->data;
-		$data['page_title']=$this->lang->line('customers');
-		$this->load->view('customers',$data);
+		$data['page_title']=$this->lang->line('addons');
+		$this->load->view('addons', $data);
 	}
 
-	public function newcustomers(){
-		$this->form_validation->set_rules('customer_name', 'Customer Name', 'trim|required');
-		
-		
+	//ITS FROM POP UP MODAL
+	public function add_addons_modal(){
+		$this->form_validation->set_rules('addons', 'addons Name', 'trim|required');
 		if ($this->form_validation->run() == TRUE) {
-			$result=$this->customers->verify_and_save();
+			$result=$this->addons->verify_and_save();
+			//fetch latest item details
+			$res=array();
+			$query=$this->db->query("select id,addons_name from db_addonss order by id desc limit 1");
+			$res['id']=$query->row()->id;
+			$res['addons']=$query->row()->addons_name;
+			$res['result']=$result;
+			
+			echo json_encode($res);
+
+		} 
+		else {
+			echo "Please Fill Compulsory(* marked) Fields.";
+		}
+	}
+	//END
+
+	public function newaddons(){
+		// print_r($_POST);die;
+		$this->form_validation->set_rules('addons', 'addons', 'trim|required');
+	
+
+		if ($this->form_validation->run() == TRUE) {
+			
+			$result=$this->addons->verify_and_save();
 			echo $result;
 		} else {
-			echo "Please Fill Compulsory(* marked) Fields.";
+			echo "Please Enter addons name.";
 		}
 	}
 	public function update($id){
-		$this->permission_check('customers_edit');
+		$this->permission_check('addons_edit');
 		$data=$this->data;
-		$result=$this->customers->get_details($id,$data);
+
+		$this->load->model('addons_model');
+		$result=$this->addons_model->get_details($id,$data);
 		$data=array_merge($data,$result);
-		$data['page_title']=$this->lang->line('customers');
-		$this->load->view('customers', $data);
+		$data['page_title']=$this->lang->line('addons');
+		$this->load->view('addons', $data);
 	}
-	public function update_customers(){
-		$this->form_validation->set_rules('customer_name', 'Customer Name', 'trim|required');
-		
-		if ($this->form_validation->run() == TRUE) {			
-			$result=$this->customers->update_customers();
+	public function update_addons(){
+		$this->form_validation->set_rules('addons', 'addons', 'trim|required');
+		$this->form_validation->set_rules('q_id', '', 'trim|required');
+
+		if ($this->form_validation->run() == TRUE) {
+			$this->load->model('addons_model');
+			$result=$this->addons_model->update_addons();
 			echo $result;
 		} else {
-			echo "Please Fill Compulsory(* marked) Fields.";
+			echo "Please Enter addons name.";
 		}
 	}
-
-	public function show_total_customer_paid_amount($customer_id){
-		return $this->db->select("coalesce(sum(paid_amount),0) as tot")->where("customer_id",$customer_id)->get("db_sales")->row()->tot;
+	public function view(){
+		$this->permission_check('addons_view');
+		$data=$this->data;
+		$data['page_title']=$this->lang->line('addonss_list');
+		$this->load->view('addons-view', $data);
 	}
+
 	public function ajax_list()
 	{
-		$list = $this->customers->get_datatables();
+		$list = $this->addons->get_datatables();
 		
 		$data = array();
 		$no = $_POST['start'];
-		foreach ($list as $customers) {
+		foreach ($list as $addons) {
 			$no++;
 			$row = array();
-			$disable = ($customers->id==1) ? 'disabled' : '';
-			if($customers->id==1){
-				$row[] = '<span class="text-blue">NA</span>';	
-			}
-			else{
-				$row[] = '<input type="checkbox" name="checkbox[]" '.$disable.' value='.$customers->id.' class="checkbox column_checkbox" >';
-			}
-			
-			$row[] = $customers->customer_code;
-			$row[] = $customers->customer_name;
-			$row[] = $customers->mobile;
-			$row[] = $customers->email;
-			$row[] = app_number_format($this->show_total_customer_paid_amount($customers->id));
-			$row[] = (!empty($customers->sales_due) && $customers->sales_due!=0) ? app_number_format($customers->sales_due) : (0);
-			$row[] = ($customers->sales_return_due==null) ? (0) : app_number_format($customers->sales_return_due);
-			
-			 		if($customers->status==1){ 
-			 			$str= "<span onclick='update_status(".$customers->id.",0)' id='span_".$customers->id."'  class='label label-success' style='cursor:pointer'>Active </span>";}
+			$row[] = '<input type="checkbox" name="checkbox[]" value='.$addons->id.' class="checkbox column_checkbox" >';
+			$row[] = $addons->addons_code;
+			$row[] = $addons->addons_name;
+			$row[] = $addons->description;
+
+			 		if($addons->status==1){ 
+			 			$str= "<span onclick='update_status(".$addons->id.",0)' id='span_".$addons->id."'  class='label label-success' style='cursor:pointer'>Active </span>";}
 					else{ 
-						$str = "<span onclick='update_status(".$customers->id.",1)' id='span_".$customers->id."'  class='label label-danger' style='cursor:pointer'> Inactive </span>";
+						$str = "<span onclick='update_status(".$addons->id.",1)' id='span_".$addons->id."'  class='label label-danger' style='cursor:pointer'> Inactive </span>";
 					}
 			$row[] = $str;			
 					$str2 = '<div class="btn-group" title="View Account">
@@ -93,91 +104,57 @@ class Addons extends MY_Controller {
 										</a>
 										<ul role="menu" class="dropdown-menu dropdown-light pull-right">';
 
-											if($this->permissions('customers_edit')&& $customers->id!=1)
+											if($this->permissions('addons_edit'))
 											$str2.='<li>
-												<a title="Edit Record ?" href="customers/update/'.$customers->id.'">
+												<a title="Edit Record ?" href="update/'.$addons->id.'">
 													<i class="fa fa-fw fa-edit text-blue"></i>Edit
 												</a>
 											</li>';
-											if($this->permissions('sales_payment_add'))
+
+											if($this->permissions('addons_delete'))
 											$str2.='<li>
-												<a title="Pay Opening Balance & Sales Due Payments" class="pointer" onclick="pay_now('.$customers->id.')" >
-													<i class="fa fa-fw fa-money text-blue"></i>Receive Due Payments
-												</a>
-											</li>';
-											if($this->permissions('sales_return_payment_add'))
-											$str2.='<li>
-												<a title="Pay Return Due" class="pointer" onclick="pay_return_due('.$customers->id.')" >
-													<i class="fa fa-fw fa-money text-blue"></i>Pay Return Due
-												</a>
-											</li>';
-											if($this->permissions('customers_delete') && $customers->id!=1)
-											$str2.='<li>
-												<a style="cursor:pointer" title="Delete Record ?" onclick="delete_customers('.$customers->id.')">
+												<a style="cursor:pointer" title="Delete Record ?" onclick="delete_addons('.$addons->id.')">
 													<i class="fa fa-fw fa-trash text-red"></i>Delete
 												</a>
 											</li>
 											
 										</ul>
 									</div>';			
-			$row[] =  $str2;
 
+			$row[] = $str2;
 			$data[] = $row;
 		}
 
 		$output = array(
 						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->customers->count_all(),
-						"recordsFiltered" => $this->customers->count_filtered(),
+						"recordsTotal" => $this->addons->count_all(),
+						"recordsFiltered" => $this->addons->count_filtered(),
 						"data" => $data,
 				);
 		//output to json format
 		echo json_encode($output);
 	}
+
 	public function update_status(){
-		$this->permission_check_with_msg('customers_edit');
+		$this->permission_check_with_msg('addons_edit');
 		$id=$this->input->post('id');
 		$status=$this->input->post('status');
 
-		$result=$this->customers->update_status($id,$status);
+		$this->load->model('addons_model');
+		$result=$this->addons_model->update_status($id,$status);
 		return $result;
 	}
 	
-	public function delete_customers(){
-		$this->permission_check_with_msg('customers_delete');
+	public function delete_addons(){
+		$this->permission_check_with_msg('addons_delete');
 		$id=$this->input->post('q_id');
-		return $this->customers->delete_customers_from_table($id);
+		return $this->addons->delete_addons_from_table($id);
 	}
 	public function multi_delete(){
-		$this->permission_check_with_msg('customers_delete');
+		$this->permission_check_with_msg('addons_delete');
 		$ids=implode (",",$_POST['checkbox']);
-		return $this->customers->delete_customers_from_table($ids);
-	}
-	public function show_pay_now_modal(){
-		$this->permission_check_with_msg('sales_payment_add');
-		$customer_id=$this->input->post('customer_id');
-		echo $this->customers->show_pay_now_modal($customer_id);
-	}
-	public function save_payment(){
-		$this->permission_check_with_msg('sales_payment_add');
-		echo $this->customers->save_payment();
-	}
-	public function show_pay_return_due_modal(){
-		$this->permission_check_with_msg('sales_return_payment_add');
-		$customer_id=$this->input->post('customer_id');
-		echo $this->customers->show_pay_return_due_modal($customer_id);
-	}
-	public function save_return_due_payment(){
-		$this->permission_check_with_msg('sales_payment_add');
-		echo $this->customers->save_return_due_payment();
-	}
-	public function delete_opening_balance_entry(){
-		$this->permission_check_with_msg('sales_payment_delete');
-		$entry_id = $this->input->post('entry_id');
-		echo $this->customers->delete_opening_balance_entry($entry_id);
-	}
-	public function getCustomers($id=''){
-		echo $this->customers->getCustomersJson($id);
+		return $this->addons->delete_addonss_from_table($ids);
 	}
 
 }
+

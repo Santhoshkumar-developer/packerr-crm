@@ -406,6 +406,31 @@ echo "<pre>";
                                               </label></div>
                                           </td>
                                         </tr>
+                                        <!-- Addons -->
+                                        <tr>
+                                          <td><?= $i++;?></td>
+                                          <td><?= $this->lang->line('addons'); ?></td>
+                                          <td>
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="change_me" id="addons"> <?= $this->lang->line('select_all'); ?>
+                                              </label></div>
+                                          </td>
+                                          <td>
+                                              <input type="hidden" name="module[addons]" value="on">
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="addons_all" id='addons_add' name="permission[addons_add]"> <?= $this->lang->line('add'); ?>
+                                              </label></div>
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="addons_all" id='addons_edit' name="permission[addons_edit]"> <?= $this->lang->line('edit'); ?>
+                                              </label></div>
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="addons_all" id='addons_delete' name="permission[addons_delete]"> <?= $this->lang->line('delete'); ?>
+                                              </label></div>
+                                              <div class="checkbox icheck"><label>
+                                                <input type="checkbox" class="addons_all" id='addons_view' name="permission[addons_view]"> <?= $this->lang->line('view'); ?>
+                                              </label></div>
+                                          </td>
+                                        </tr>
                                         <!-- Suppliers -->
                                         <tr>
                                           <td><?= $i++;?></td>

@@ -44,7 +44,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" id="brand-form" onkeypress="return event.keyCode != 13;">
+            <form class="form-horizontal" id="addons-form" onkeypress="return event.keyCode != 13;">
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
               <input type="hidden" id="base_url" value="<?php echo $base_url;; ?>">
               <div class="box-body">
@@ -52,10 +52,10 @@
 
 
 			<div class="form-group">
-			      <label for="brand" class="col-sm-2 control-label"><?= $this->lang->line('brand_name'); ?><label class="text-danger">*</label></label>
+			      <label for="addons" class="col-sm-2 control-label"><?= $this->lang->line('addons_name'); ?><label class="text-danger">*</label></label>
            <div class="col-sm-4">
-             <input type="text" class="form-control input-sm" id="brand" name="brand" placeholder="" onkeyup="shift_cursor(event,'description')" value="<?php print $brand_name; ?>" autofocus >
-				      <span id="brand_msg" style="display:none" class="text-danger"></span>
+             <input type="text" class="form-control input-sm" id="addons" name="addons" placeholder="" onkeyup="shift_cursor(event,'description')" value="<?php print $addons_name; ?>" autofocus >
+				      <span id="addons_msg" style="display:none" class="text-danger"></span>
             </div>
       </div>
 
@@ -92,7 +92,7 @@
                       <button type="button" id="<?php echo $btn_id;?>" class=" btn btn-block btn-success" title="Save Data"><?php echo $btn_name;?></button>
                    </div>
                    <div class="col-sm-3">
-                    <a href="<?=base_url('dashboard');?>">
+                    <a href="<?=base_url('addons/view');?>">
                       <button type="button" class="col-sm-3 btn btn-block btn-warning close_btn" title="Go Dashboard">Close</button>
                     </a>
                    </div>
@@ -126,7 +126,7 @@
 <!-- TABLES CODE -->
 <?php include"comman/code_js_form.php"; ?>
 
-<script src="<?php echo $theme_link; ?>js/brand.js"></script>
+<script src="<?php echo $theme_link; ?>js/addons.js"></script>
 <!-- Make sidebar menu hughlighter/selector -->
 <script>$(".<?php echo basename(__FILE__,'.php');?>-active-li").addClass("active");</script>
 </body>

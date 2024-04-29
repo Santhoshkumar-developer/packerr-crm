@@ -548,3 +548,14 @@ $lang['view_all_users_purchase_invoices'						]	=		'View All Users Purchase Invo
 $lang['view_all_users_purchase_return_invoices'						]	=		'View All Users Purchase Return Invoices';
 $lang['signature'			]	=		'Signature';
 $lang['show_signature'			]	=		'Show Signature on Invoice';
+
+$lang['addons']	=		'Addons';
+$lang['addons_add']	=		'Addons Add';
+$lang['add_addons']	=		'Add Addons';
+$lang['addons_view']	=		'Addons View';
+$lang['addons_list']	=		'Addons List';
+$lang['addons_code']	=		'Addons Code';
+$lang['addons_name']	=	'Addons Name';
+$lang['new_addons']	=		'New Addons';
+$lang['new_addons']	=		'New Addons';
+

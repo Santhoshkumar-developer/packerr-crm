@@ -36,15 +36,15 @@
 /*############################INSTALL END#########################*/
 
 /*############################REAL#########################*/
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production');
+define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 /*############################REAL END#########################*/
 
 
 
-if(!file_exists(".htaccess")){
-	fopen(".htaccess", "w");
-	copy("uploads/htaccess_file/.htaccess", ".htaccess");
-}
+// if(!file_exists(".htaccess")){
+// 	fopen(".htaccess", "w");
+// 	copy("uploads/htaccess_file/.htaccess", ".htaccess");
+// }
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

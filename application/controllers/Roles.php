@@ -9,7 +9,7 @@ class Roles extends MY_Controller {
 	}
 
 	public function add(){
-		$this->permission_check('roles_add');
+		$this->permission_check('rolesd_add');
 		$data=$this->data;
 		$data['page_title']=$this->lang->line('new_role');
 		$this->load->view('role', $data);

@@ -300,6 +300,12 @@
             <?php if($CI->permissions('brand_view')) { ?>
             <li class="brand-view-active-li"><a href="<?php echo $base_url; ?>brands/view"><i class="fa fa-list "></i> <span><?= $this->lang->line('brands_list'); ?></span></a></li>
             <?php } ?>
+            <?php if($CI->permissions('addons_add')) { ?>
+            <li class="addons-active-li"><a href="<?php echo $base_url; ?>addons/add"><i class="fa fa-plus-square-o "></i> <span><?= $this->lang->line('new_addons'); ?></span></a></li>
+            <?php } ?>
+            <?php if($CI->permissions('addons_view')) { ?>
+            <li class="addons-view-active-li"><a href="<?php echo $base_url; ?>addons/view"><i class="fa fa-list "></i> <span><?= $this->lang->line('addons_list'); ?></span></a></li>
+            <?php } ?>
             <?php if($CI->permissions('print_labels')) { ?>
             <li class="labels-active-li"><a href="<?php echo $base_url; ?>items/labels"><i class="fa fa-barcode "></i> <span><?= $this->lang->line('print_labels'); ?></span></a></li>
             <?php } ?>
